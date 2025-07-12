@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.kotlinxSerialization)
 }
 
 kotlin {
@@ -12,7 +11,7 @@ kotlin {
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
-        namespace = "com.kmptest.navigation"
+        namespace = "com.kmptest.home"
         compileSdk = 36
         minSdk = 24
 
@@ -33,7 +32,7 @@ kotlin {
     // A step-by-step guide on how to include this library in an XCode
     // project can be found here:
     // https://developer.android.com/kotlin/multiplatform/migrate
-    val xcfName = "navigationKit"
+    val xcfName = "features:home:apiKit"
 
     iosX64 {
         binaries.framework {
@@ -63,38 +62,20 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
-                implementation(compose.ui)
-                implementation(compose.components.resources)
-                implementation(libs.compose.navigation)
-                implementation(libs.androidx.lifecycle.viewmodel)
-
-                implementation(project.dependencies.platform(libs.koin.bom))
-                implementation(libs.koin.core)
-                implementation(libs.koin.compose)
-                implementation(libs.koin.compose.viewmodel)
-                implementation(libs.koin.compose.viewmodel.navigation)
-
-                implementation(projects.core.resources)
-                implementation(projects.features.auth.api)
-                implementation(projects.features.home.api)
             }
         }
 
         commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
-                implementation(libs.mockk)
             }
         }
 
-        getByName("androidHostTest") {
+        androidMain {
             dependencies {
-                implementation(libs.kotlin.test)
-                implementation(libs.mockk)
-                implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.turbine)
+                // Add Android-specific dependencies here. Note that this source set depends on
+                // commonMain by default and will correctly pull the Android artifacts of any KMP
+                // dependencies declared in commonMain.
             }
         }
 
@@ -105,5 +86,16 @@ kotlin {
                 implementation(libs.androidx.testExt.junit)
             }
         }
+
+        iosMain {
+            dependencies {
+                // Add iOS-specific dependencies here. This a source set created by Kotlin Gradle
+                // Plugin (KGP) that each specific iOS target (e.g., iosX64) depends on as
+                // part of KMP’s default source set hierarchy. Note that this source set depends
+                // on common by default and will correctly pull the iOS artifacts of any
+                // KMP dependencies declared in commonMain.
+            }
+        }
     }
+
 }

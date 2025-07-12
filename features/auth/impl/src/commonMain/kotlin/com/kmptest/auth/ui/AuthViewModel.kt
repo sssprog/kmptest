@@ -9,15 +9,13 @@ import androidx.savedstate.savedState
 import com.diamondedge.logging.logging
 import com.kmptest.auth.domain.LoginUseCase
 import com.kmptest.core.ui.ErrorMapper
-import com.kmptest.core.ui.ErrorState
-import com.kmptest.core.ui.UiError
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 internal class AuthViewModel(
-        private val savedStateHandle: SavedStateHandle,
+        savedStateHandle: SavedStateHandle,
         private val loginUseCase: LoginUseCase,
         private val errorMapper: ErrorMapper
 ) : ViewModel() {
@@ -29,7 +27,9 @@ internal class AuthViewModel(
     private val _buttonEnabled = MutableStateFlow(false)
     val buttonEnabled = _buttonEnabled.asStateFlow()
 
-    private val _errorState = MutableStateFlow<ErrorState<UiError>>(ErrorState.none)
+    private val _actionState = MutableStateFlow<AuthViewAction>(AuthViewAction.None)
+    val actionState = _actionState.asStateFlow()
+
 
     init {
         val state = savedStateHandle.get<SavedState>(KEY_STATE)
@@ -50,19 +50,19 @@ internal class AuthViewModel(
         viewModelScope.launch {
             try {
                 loginUseCase(_loginState.value, _passwordState.value)
+                _actionState.value = AuthViewAction.LoginSuccess
             } catch (e: Throwable) {
                 ensureActive()
-                _errorState.value = ErrorState.Error(errorMapper.map(e))
+                _actionState.value = AuthViewAction.Error(errorMapper.map(e))
             }
         }
     }
 
-    fun clearErrorState() {
-        _errorState.value = ErrorState.none
+    fun clearAction() {
+        _actionState.value = AuthViewAction.None
     }
 
     fun onLoginChanged(value: String) {
-        logger.d { "onLoginChanged [$value]" }
         _loginState.value = value
         updateButtonState()
     }

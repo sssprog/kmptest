@@ -17,9 +17,9 @@ import org.koin.dsl.module
 val authModule = module {
     factory<AuthFeature> {
         object : AuthFeature {
-            override val authScreen: @Composable (() -> Unit)
-                get() = {
-                    AuthScreen()
+            override val authScreen: @Composable ((onLoginSuccess: () -> Unit) -> Unit)
+                get() = { onLoginSuccess ->
+                    AuthScreen(onLoginSuccess)
                 }
         }
     }

@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.kmptest.auth.AuthFeature
+import com.kmptest.home.HomeFeature
 import com.kmptest.splash.SplashScreen
 import org.koin.compose.koinInject
 
@@ -18,7 +19,7 @@ fun AppNavigation() {
         composable<Destinations.Splash> {
             SplashScreen(
                     openApp = {
-
+                        navController.navigateTo(Destinations.Home, Destinations.Splash)
                     },
                     openAuth = {
                         navController.navigateTo(Destinations.Auth, Destinations.Splash)
@@ -27,7 +28,13 @@ fun AppNavigation() {
         }
 
         composable<Destinations.Auth> {
-            koinInject<AuthFeature>().authScreen()
+            koinInject<AuthFeature>().authScreen {
+                navController.navigateTo(Destinations.Home, Destinations.Auth)
+            }
+        }
+
+        composable<Destinations.Home> {
+            koinInject<HomeFeature>().homeScreen()
         }
     }
 }

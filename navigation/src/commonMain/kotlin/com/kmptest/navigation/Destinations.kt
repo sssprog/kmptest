@@ -8,4 +8,7 @@ class Destinations {
 
     @Serializable
     object Auth
+
+    @Serializable
+    object Home
 }

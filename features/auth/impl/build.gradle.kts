@@ -91,8 +91,8 @@ kotlin {
 
                 implementation(projects.core.data)
                 implementation(projects.core.resources)
-                implementation(project(":features:auth:api"))
-                implementation(project(":core:ui"))
+                implementation(projects.features.auth.api)
+                implementation(projects.core.ui)
             }
         }
 

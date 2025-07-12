@@ -72,9 +72,11 @@ kotlin {
 
             implementation(projects.core.resources)
             implementation(projects.core.ui)
-            implementation(project(":navigation"))
-            implementation(project(":features:auth:api"))
-            implementation(project(":features:auth:impl"))
+            implementation(projects.navigation)
+            implementation(projects.features.auth.api)
+            implementation(projects.features.auth.impl)
+            implementation(projects.features.home.api)
+            implementation(projects.features.home.impl)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
