@@ -1,8 +1,12 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinxSerialization)
 }
 
 kotlin {
@@ -14,6 +18,11 @@ kotlin {
         namespace = "com.kmptest.home"
         compileSdk = 36
         minSdk = 24
+
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
 
         withHostTestBuilder {
         }
@@ -78,6 +87,9 @@ kotlin {
                 implementation(libs.koin.compose.viewmodel.navigation)
 
                 implementation(libs.kmLogging)
+                implementation(libs.ktor.client.core)
+                implementation(libs.coil.compose)
+                implementation(libs.coil.network)
 
                 implementation(projects.core.data)
                 implementation(projects.core.resources)

@@ -1,6 +1,9 @@
 package com.kmptest.kmptest
 
 import android.app.Application
+import coil3.ImageLoader
+import coil3.SingletonImageLoader
+import coil3.util.DebugLogger
 import com.kmptest.app.startKoinCommon
 import org.koin.android.ext.android.getKoinScope
 import org.koin.android.ext.koin.androidContext
@@ -12,6 +15,11 @@ class AndroidApp : Application() {
         startKoin {
             androidContext(this@AndroidApp)
             startKoinCommon()
+        }
+        SingletonImageLoader.setSafe { context ->
+            ImageLoader.Builder(context)
+                    .logger(DebugLogger())
+                    .build()
         }
     }
 }

@@ -2,9 +2,13 @@ package com.kmptest.home.di
 
 import androidx.compose.runtime.Composable
 import com.kmptest.home.HomeFeature
+import com.kmptest.home.data.HomeApi
+import com.kmptest.home.data.HomeRepository
+import com.kmptest.home.domain.GetAllRocketsUseCase
 import com.kmptest.home.ui.HomeScreen
 import com.kmptest.home.ui.HomeViewModel
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.scopedOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
@@ -19,12 +23,11 @@ val homeModule = module {
                 }
         }
     }
-//    singleOf(::AuthRepositoryImpl) bind AuthRepository::class
-//    single<AuthRepository> { AuthRepositoryImpl(get()) }
-//    singleOf(::AuthPreferences)
 
     scope<HomeScreen> {
         viewModelOf(::HomeViewModel)
-//        factoryOf(::LoginUseCase)
+        scopedOf(::HomeApi)
+        scopedOf(::HomeRepository)
+        factoryOf(::GetAllRocketsUseCase)
     }
 }

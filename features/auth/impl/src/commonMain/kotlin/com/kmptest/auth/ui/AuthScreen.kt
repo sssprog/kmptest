@@ -38,11 +38,11 @@ import org.koin.core.qualifier.named
 import org.koin.mp.KoinPlatformTools
 import org.koin.mp.generateId
 
-object AuthScreen
+internal object AuthScreen
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-fun AuthScreen(onLoginSuccess: () -> Unit) {
+internal fun AuthScreen(onLoginSuccess: () -> Unit) {
     KoinScope(remember { KoinPlatformTools.generateId() }, named<AuthScreen>()) {
         val viewModel = koinViewModel<AuthViewModel>()
         val snackbarHostState = remember { SnackbarHostState() }

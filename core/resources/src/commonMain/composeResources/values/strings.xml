@@ -4,4 +4,7 @@
     <string name="default_error_message">Some error happened</string>
     <string name="login">Login</string>
     <string name="password">Password</string>
+    <string name="retry">Retry</string>
+    <string name="empty_data_title">Empty</string>
+    <string name="empty_data_message">There is no data yet</string>
 </resources>

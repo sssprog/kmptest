@@ -54,6 +54,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.coil.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -72,6 +73,7 @@ kotlin {
 
             implementation(projects.core.resources)
             implementation(projects.core.ui)
+            implementation(projects.core.data)
             implementation(projects.navigation)
             implementation(projects.features.auth.api)
             implementation(projects.features.auth.impl)
