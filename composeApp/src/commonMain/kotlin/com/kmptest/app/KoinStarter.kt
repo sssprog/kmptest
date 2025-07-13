@@ -6,6 +6,7 @@ import com.kmptest.core.ui.di.coreUiModule
 import com.kmptest.data.di.networkModule
 import com.kmptest.home.di.homeModule
 import org.koin.core.KoinApplication
+import org.koin.core.context.startKoin
 
 fun KoinApplication.startKoinCommon() {
     modules(
@@ -15,4 +16,10 @@ fun KoinApplication.startKoinCommon() {
             authModule,
             homeModule
     )
+}
+
+fun initKoinIos() {
+    startKoin {
+        startKoinCommon()
+    }
 }
