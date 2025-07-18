@@ -7,6 +7,7 @@ import com.kmptest.home.data.HomeRepository
 import com.kmptest.home.domain.GetAllRocketsUseCase
 import com.kmptest.home.ui.HomeScreen
 import com.kmptest.home.ui.HomeViewModel
+import com.kmptest.home.ui.RocketScreen
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.scopedOf
 import org.koin.core.module.dsl.singleOf
@@ -17,9 +18,14 @@ import org.koin.dsl.module
 val homeModule = module {
     factory<HomeFeature> {
         object : HomeFeature {
-            override val homeScreen: @Composable (() -> Unit)
+            override val homeScreen: @Composable ((onItemClick: () -> Unit) -> Unit)
+                get() = { onItemClick ->
+                    HomeScreen(onItemClick)
+                }
+
+            override val detailsScreen: @Composable (() -> Unit)
                 get() = {
-                    HomeScreen()
+                    RocketScreen()
                 }
         }
     }

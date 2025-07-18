@@ -1,5 +1,6 @@
 package com.kmptest.home.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,7 +32,7 @@ internal object HomeScreen
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-internal fun HomeScreen() {
+internal fun HomeScreen(onItemClick: () -> Unit) {
     KoinScope(remember { KoinPlatformTools.generateId() }, named<HomeScreen>()) {
         val viewModel = koinViewModel<HomeViewModel>()
         val state = viewModel.rockets.collectAsStateWithLifecycle().value
@@ -42,18 +43,18 @@ internal fun HomeScreen() {
                         .safeDrawingPadding()
                         .fillMaxSize()
         ) { rockets ->
-            RocketsList(rockets)
+            RocketsList(rockets, onItemClick)
         }
     }
 }
 
 @Composable
-private fun RocketsList(rockets: List<Rocket>) {
+private fun RocketsList(rockets: List<Rocket>, onItemClick: () -> Unit) {
     LazyColumn(
             modifier = Modifier.fillMaxSize()
     ) {
         items(rockets) { rocket ->
-            RocketItem(rocket)
+            RocketItem(rocket, onItemClick)
         }
         item {
             Spacer(modifier = Modifier.height(16.dp))
@@ -62,9 +63,11 @@ private fun RocketsList(rockets: List<Rocket>) {
 }
 
 @Composable
-private fun RocketItem(rocket: Rocket) {
+private fun RocketItem(rocket: Rocket, onItemClick: () -> Unit) {
     Column(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+            modifier = Modifier
+                    .clickable(onClick = onItemClick)
+                    .padding(start = 16.dp, end = 16.dp, top = 8.dp)
     ) {
         rocket.rocketsImages.lastOrNull()?.let { url ->
             AsyncImage(

@@ -11,4 +11,7 @@ class Destinations {
 
     @Serializable
     object Home
+
+    @Serializable
+    object RocketDetails
 }

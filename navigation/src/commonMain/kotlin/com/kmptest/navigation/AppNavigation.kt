@@ -34,7 +34,13 @@ fun AppNavigation() {
         }
 
         composable<Destinations.Home> {
-            koinInject<HomeFeature>().homeScreen()
+            koinInject<HomeFeature>().homeScreen {
+                navController.navigate(Destinations.RocketDetails)
+            }
+        }
+
+        composable<Destinations.RocketDetails> {
+            koinInject<HomeFeature>().detailsScreen()
         }
     }
 }
